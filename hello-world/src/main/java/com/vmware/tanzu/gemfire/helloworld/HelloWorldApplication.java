@@ -12,35 +12,18 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
  */
 
-package io.pivotal.cloudcache.helloworld;
+package com.vmware.tanzu.gemfire.helloworld;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.gemfire.config.annotation.EnableCachingDefinedRegions;
-import org.springframework.data.gemfire.config.annotation.EnableClusterConfiguration;
+import org.springframework.geode.config.annotation.EnableClusterAware;
 
 @SpringBootApplication
-// Causes the creation of server-side Cloud Cache/GemFire regions via the @Cacheable annotation during the
-// Initialization phase of the app's lifecycle
 @EnableCachingDefinedRegions
+@EnableClusterAware
 public class HelloWorldApplication {
 
-	@Configuration
-	@Profile("!localCluster")
-	// Allows Spring to configure the Cloud Cache/GemFire cluster; necessary for creating regions
-	@EnableClusterConfiguration(useHttp = true)
-	static class CloudConfiguration {
-
-	}
-
-	@Configuration
-	@Profile("localCluster")
-	@EnableClusterConfiguration(useHttp = true, requireHttps = false)
-	static class LocalConfiguration {
-
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloWorldApplication.class, args);

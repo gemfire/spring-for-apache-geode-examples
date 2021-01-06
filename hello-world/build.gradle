@@ -12,67 +12,35 @@
  * language governing permissions and limitations under the License.
  */
 
-buildscript{
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 plugins {
+    id 'org.springframework.boot' version '2.4.1'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
 }
 
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'org.springframework.boot'
+group = 'com.vmware.tanzu.gemfire.helloworld'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
-group = 'io.pivotal.cloudcache.helloworld'
-sourceCompatibility = "$javaVersion"
+bootBuildImage{
+    imageName = "docker.io/[YOUR DOCKER USERNAME]/hello-world:${project.version}"
+}
 
 repositories {
     mavenCentral()
-    maven {
-        credentials {
-            username "$gemfireReleaseRepoUser"
-            password "$gemfireReleaseRepoPassword"
-        }
-        url "https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire"
-    }
+}
+
+ext {
+    set('springGeodeVersion', "1.4.0")
 }
 
 dependencies {
-    implementation("org.springframework.geode:spring-gemfire-starter:${springBootStarterVersion}")
-    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.geode:spring-geode-starter'
 }
 
-task createClusterDirectory(type: Exec) {
-    group = 'cluster'
-    dependsOn 'cleanUpClusterDirectory'
-    commandLine 'mkdir', 'cluster'
-}
-
-task startCluster(type: Exec) {
-    group = 'cluster'
-    dependsOn 'createClusterDirectory'
-    workingDir './cluster'
-    commandLine 'gfsh', 'run', '--file=../scripts/start.gfsh'
-}
-
-task stopCluster(type: Exec) {
-    group = 'cluster'
-    commandLine 'gfsh', 'run', '--file=./scripts/stop.gfsh'
-}
-
-task cleanUpClusterDirectory(type: Exec) {
-    group = 'cluster'
-    commandLine 'rm', '-rf', 'cluster'
-}
-
-task stopAndCleanUpCluster {
-    group = 'cluster'
-    dependsOn 'stopCluster'
-    dependsOn 'cleanUpClusterDirectory'
-}
-
-bootRun {
-    jvmArgs = ["-Dspring.profiles.active=localCluster"]
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
+    }
 }

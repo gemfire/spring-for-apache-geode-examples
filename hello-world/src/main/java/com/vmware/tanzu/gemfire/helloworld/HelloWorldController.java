@@ -12,7 +12,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
  */
 
-package io.pivotal.cloudcache.helloworld;
+package com.vmware.tanzu.gemfire.helloworld;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class HelloWorldController {
     @Autowired
     HelloWorldService helloWorldService;
 
-    @RequestMapping(value="/hello", produces = "text/html")
+    @RequestMapping(value="/", produces = "text/html")
     public String getHelloValue() {
 
         String key = "hello";

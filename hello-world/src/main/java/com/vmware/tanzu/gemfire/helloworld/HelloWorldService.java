@@ -12,7 +12,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
  */
 
-package io.pivotal.cloudcache.helloworld;
+package com.vmware.tanzu.gemfire.helloworld;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,8 @@ import java.time.ZoneId;
 @Service
 public class HelloWorldService {
 
-    // @Cacheable uses the parameter of the method it annotates as the key and caches the return value.
-    // (Region with name "Hello" will be created via @EnableCachingDefinedRegions on Application)
+
     @Cacheable("Hello")
-    // This method will not be invoked if the key is in the cache
     public String getHelloValue(String key) {
         simulateSlowDataStore();
 

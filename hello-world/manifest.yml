@@ -12,6 +12,6 @@
 ---
 applications:
   - name: helloworld
-    path: ./build/libs/helloworld-0.0.1-SNAPSHOT.jar
+    path: ./build/libs/hello-world-0.0.1-SNAPSHOT.jar
     services:
-      - <SERVICE-INSTANCE-NAME>
+      - <your-tanzu-gemfire-service>
