@@ -12,13 +12,13 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
  */
 
-package io.pivotal.cloudcache.lookasidecache.services;
+package com.vmware.tanzu.gemfire.lookasidecache.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.pivotal.cloudcache.lookasidecache.domain.BikeIncident;
+import com.vmware.tanzu.gemfire.lookasidecache.domain.BikeIncident;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

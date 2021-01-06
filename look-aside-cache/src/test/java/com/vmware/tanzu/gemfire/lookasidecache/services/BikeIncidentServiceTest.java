@@ -10,10 +10,10 @@ Unless required by applicable law or agreed to in writing, software distributed 
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
 language governing permissions and limitations under the License.*/
 
-package io.pivotal.cloudcache.lookasidecache.services;
+package com.vmware.tanzu.gemfire.lookasidecache.services;
 
-import io.pivotal.cloudcache.lookasidecache.LookAsideCacheApplication;
-import io.pivotal.cloudcache.lookasidecache.domain.BikeIncident;
+import com.vmware.tanzu.gemfire.lookasidecache.LookAsideCacheApplication;
+import com.vmware.tanzu.gemfire.lookasidecache.domain.BikeIncident;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
