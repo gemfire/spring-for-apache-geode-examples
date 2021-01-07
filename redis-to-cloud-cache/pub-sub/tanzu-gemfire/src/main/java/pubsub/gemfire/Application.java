@@ -10,7 +10,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
 language governing permissions and limitations under the License.*/
 
-package pubsub.cloudcache;
+package pubsub.gemfire;
 
 import org.apache.geode.cache.CacheListener;
 import org.apache.geode.cache.EntryEvent;
@@ -70,7 +70,7 @@ public class Application {
         MessageSender messageSender = applicationContext.getBean(MessageSender.class);
 
         LOGGER.info("Sending message...");
-        messageSender.sendMessage("Hello from Cloud Cache!");
+        messageSender.sendMessage("Hello from GemFire!");
 
         countDownLatch.await();
     }

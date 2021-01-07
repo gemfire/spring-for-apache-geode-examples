@@ -12,32 +12,4 @@
  * language governing permissions and limitations under the License.
  */
 
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.4.RELEASE")
-    }
-}
-
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-sourceCompatibility = "$javaVersion"
-
-repositories {
-    mavenCentral()
-    maven {
-        credentials {
-            username "$gemfireReleaseRepoUser"
-            password "$gemfireReleaseRepoPassword"
-        }
-        url "https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire"
-    }
-}
-
-dependencies {
-    implementation 'org.springframework.geode:spring-gemfire-starter:1.2.4.RELEASE'
-}
+rootProject.name='pubsub.gemfire'
