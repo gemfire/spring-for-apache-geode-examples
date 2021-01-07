@@ -12,8 +12,7 @@
 
 ---
 applications:
-  - name: pubsub-tanzu-gemfire
-    path: ./build/libs/pubsub.gemfire-0.0.1-SNAPSHOT.jar
-    health-check-type: process
+  - name: boot-tanzu-gemfire-simple
+    path: ./build/libs/bootsimple.session.gemfire-0.0.1-SNAPSHOT.jar
     services:
       - <SERVICE-INSTANCE-NAME>

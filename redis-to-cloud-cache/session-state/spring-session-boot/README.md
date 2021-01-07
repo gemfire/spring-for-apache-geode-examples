@@ -13,56 +13,41 @@ language governing permissions and limitations under the License.-->
 # Spring Session Sample Boot
 
 The projects in this directory illustrate a standard Spring Boot application using Spring Session to save session data
-with either Redis or Cloud Cache. In this guide, we will highlight the changes necessary for switching from Redis to
-Cloud Cache for session state caching utilizing the
-[Spring Boot for Pivotal GemFire Session starter](https://docs.spring.io/autorepo/docs/spring-boot-data-geode-build/current/reference/html5/#introduction).
+with either Redis or Tanzu GemFire / Apache Geode. In this guide, we will highlight the changes necessary for switching from Redis to
+Tanzu GemFire for session state caching utilizing the
+[Spring Boot for Apache Geode](https://docs.spring.io/autorepo/docs/spring-boot-data-geode-build/current/reference/html5/#introduction) dependency.
 
-## How to Convert from Redis to Cloud Cache
+## How to Convert from Redis to Tanzu GemFire
 
 ### Update `build.gradle`
-The Spring Boot Redis dependencies need to be updated to use Cloud Cache.
+The Spring Boot Redis dependencies need to be updated to use Spring Boot for Apache Geode.
 
 Remove these dependencies:
 
-```java
+```groovy
 implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 implementation 'org.springframework.session:spring-session-data-redis'
 ```
 
 Replace them with these dependencies:
 
-```java
-implementation 'org.springframework.geode:spring-gemfire-starter-session:1.2.4.RELEASE'
-implementation 'org.springframework.session:spring-session-data-geode:2.2.2.RELEASE'
-```
+```groovy
+ext {
+    set('springGeodeVersion', "1.4.0")
+}
 
-To utilize the Cloud Cache dependencies, you must add the credentials and the url for the
-[Pivotal Maven Commercial repo](https://commercial-repo.pivotal.io/login/auth) to
-the repositories block. The resulting repositories section should look something like this:
+dependencies {
+    implementation 'org.springframework.geode:spring-geode-starter'
+    implementation 'org.springframework.geode:spring-geode-starter-session'
+ ...
+}
 
-```java
-repositories {
-    mavenCentral()
-    maven {
-        credentials {
-            username "$gemfireReleaseRepoUser"
-            password "$gemfireReleaseRepoPassword"
-        }
-        url "https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire"
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
     }
 }
 ```
-
-### Update `gradle.properties`
-Add your [Pivotal Maven Commercial repo](https://commercial-repo.pivotal.io/login/auth) username and password to the `gradle.properties` file:
-
-```properties
-gemfireReleaseRepoUser=<USERNAME>
-gemfireReleaseRepoPassword=<PASSWORD>
-```
-
-Replace `<USERNAME>` with your username and `<PASSWORD>` with your password. If you do not have a username and passsword, 
-register [here](https://commercial-repo.pivotal.io/login/auth) to get an account.
 
 ### Add `@EnableClusterAware`
 In your main application or config class (in this example `Application.java`), import and add the `@EnableClusterAware` 
@@ -83,8 +68,8 @@ public class Application {
 ```
 
 ### Remove Redis Bean from `WebMvcConfig`
-This example needed the following Bean to use Redis on the Pivotal Platform. You can remove this bean and its imports
-if your app is currently using it for Redis. It is not needed for Cloud Cache.
+This example needed the following Bean to use Redis on the Tanzu Application Service. You can remove this bean and its imports
+if your app is currently using it for Redis. It is not needed for GemFire.
 
 ```java
 @Bean
@@ -94,22 +79,18 @@ public static ConfigureRedisAction configureRedisAction() {
 ```
 
 ### Optional/Housekeeping
-For most projects, the following changes will not be necessary, but in this example the Cloud Cache application is a
+For most projects, the following changes will not be necessary, but in this example the GemFire application is a
 separate, self-contained project and these tweaks were needed:
 
-- In `settings.gradle`, update the `rootProject.name` from `boot.session.redis` to `boot.session.cloudcache`.
-- In `manifest.yml`, update the JAR name in `path` from `boot.session.redis` to `boot.session.cloudcache`.
+- In `settings.gradle`, update the `rootProject.name` from `boot.session.redis` to `boot.session.gemfire`.
+- In `manifest.yml`, update the JAR name in `path` from `boot.session.redis` to `boot.session.gemfire-0.0.1-SNAPSHOT.jar`.
 
-## Running the Cloud Cache Application
+## Running the Tanzu GemFire Application
 
-Navigate to the Cloud Cache application directory and execute the following command:
+Navigate to the GemFire application directory and execute the following command:
 ```bash
 ./gradlew bootRun
 ```
-
-**Note:** If you do not have a local GemFire/Cloud Cache instance running, you will see an exception logged of the form:
-`Could not connect to: localhost:40404`. The application is still running normally using the internal cache
-implementation.
 
 Go to localhost:8080 in your browser of choice. You should see a login screen like the following:
 ![login page](readme-images/login-page.png)
@@ -122,9 +103,9 @@ Once you've logged in successfully, you should see a page similar to the followi
 You should be able to refresh the page or close the tab and open a new one, but when you navigate back to the
 application you will still be logged in.
 
-**Note:** When running these examples on the Pivotal Platform, you will need to update the manifest.yml file to bind to your
-Redis or [Cloud Cache](https://docs.pivotal.io/cloud-cache-dev/get-started#test-pas) service instance.
+**Note:** When running these examples on the Tanzu Application Service, you will need to update the manifest.yml file to bind to your
+Redis or Tanzu GemFire service instance.
 
 ## Notes on Testing
-For these applications, the intention was to demonstrate how to migrate from Redis to Cloud Cache.  If your tests are 
+For these applications, the intention was to demonstrate how to migrate from Redis to Tanzu GemFire.  If your tests are 
 not specific to either framework, they should still pass once you've migrated.

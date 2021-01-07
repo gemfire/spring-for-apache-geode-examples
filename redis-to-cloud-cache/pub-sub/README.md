@@ -13,57 +13,39 @@ language governing permissions and limitations under the License.-->
 # Publish And Subscribe
 
 The projects in this directory illustrate a Spring Boot application that creates a publish and subscribe channel with
-either Redis or Cloud Cache. In this guide, we will highlight the changes necessary for switching from Redis to Cloud
-Cache for the publish/subscribe implementation.
+either Redis or Tanzu GemFire / Apache Geode. In this guide, we will highlight the changes necessary for switching from Redis to Tanzu GemFire / Apache Geode for the publish/subscribe implementation.
 
-In the Cloud Cache example, a Region will represent the equivalent of a PatternTopic as defined in the Redis example. 
+In the Tanzu GemFire / Apache Geode example, a Region will represent the equivalent of a PatternTopic as defined in the Redis example. 
 
 
-## How to Convert from Redis to Cloud Cache
+## How to Convert from Redis to Tanzu GemFire
 
 ### Update `build.gradle`
-The Spring Boot Redis dependencies need to be updated to use Cloud Cache.
+The Spring Boot Redis dependencies need to be updated to use Spring Boot for Apache Geode.
 
 Remove these Redis dependencies:
 
-```java
+```groovy
 implementation "org.springframework.boot:spring-boot-starter-data-redis"
 ```
 
-Replace them with this Cloud Cache dependency:
+Replace them with this Spring dependency:
 
-```java
-implementation 'org.springframework.geode:spring-gemfire-starter:1.2.2.RELEASE'
-```
+```groovy
+ext {
+    set('springGeodeVersion', "1.4.0")
+}
 
-To utilize the Cloud Cache dependencies, you must add the credentials and the url for the
-[Pivotal Maven Commercial repo](https://commercial-repo.pivotal.io/login/auth) to
-the repositories block. The resulting repositories section should look something like this:
+dependencies {
+    implementation 'org.springframework.geode:spring-geode-starter'
+}
 
-```java
-repositories {
-    mavenCentral()
-    maven {
-        credentials {
-            username "$gemfireReleaseRepoUser"
-            password "$gemfireReleaseRepoPassword"
-        }
-        url "https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire"
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
     }
 }
 ```
-
-### Update `gradle.properties`
-Add your [Pivotal Maven Commercial repo](https://commercial-repo.pivotal.io/login/auth) username and password to the 
-`gradle.properties` file:
-
-```properties
-gemfireReleaseRepoUser=<USERNAME>
-gemfireReleaseRepoPassword=<PASSWORD>
-```
-
-Replace `<USERNAME>` with your username and `<PASSWORD>` with your password. If you do not have a username and 
-password, register [here](https://commercial-repo.pivotal.io/login/auth) to get an account.
 
 ### Add `@EnableClusterAware` and `@EnableCachingDefinedRegions`
 In your main application or config class (in this example `Application.java`), import and add the `@EnableClusterAware` 
@@ -81,7 +63,7 @@ public class Application {
 ```
 
 ### Replace Redis Beans
-The Redis example uses the following Beans to implement the pub/sub pattern on the Pivotal Platform. In the
+The Redis example uses the following Beans to implement the pub/sub pattern on the Tanzu Application Service. In the
 RedisMessageListenerContainer Bean, the application defines the “chat” topic. 
 
 ```java
@@ -111,8 +93,9 @@ RedisMessageListenerContainer Bean, the application defines the “chat” topic
     }
 ```
 
-Replace the above Redis Beans and their imports with the following Cloud Cache equivalents in the Application.java
+Replace the above Redis Beans and their imports with the following GemFire equivalents in the Application.java
 class:
+
 ```java
 ...
 
@@ -168,7 +151,7 @@ LOGGER.info("Sending message...");
 stringRedisTemplate.convertAndSend("chat", "Hello from Redis!");
 ```
 
-The Cloud Cache application calls the sendMessage method on the MessageSender class to add an entry to the region that
+The GemFire application calls the sendMessage method on the MessageSender class to add an entry to the region that
 the cache listener is subscribed to:
 
 ```java
@@ -176,17 +159,17 @@ CountDownLatch countDownLatch = applicationContext.getBean(CountDownLatch.class)
 MessageSender messageSender = applicationContext.getBean(MessageSender.class);
 
 LOGGER.info("Sending message...");
-messageSender.sendMessage("Hello from Cloud Cache!");
+messageSender.sendMessage("Hello from Tanzu GemFire!");
 
 ```
 
 ### Remove `Subscriber.java`
 
-This is not needed for Cloud Cache; the subscriber is a CacheListenerAdapter bean in this application (as described above).
+This is not needed for GemFire; the subscriber is a CacheListenerAdapter bean in this application (as described above).
 
 ### Add a MessageSender class
 
-The Cloud Cache app uses the @Cacheable annotation in MessageSender.java to create a region (named “chat”) that caches
+The GemFire app uses the @Cacheable annotation in MessageSender.java to create a region (named “chat”) that caches
 messages:
 ```java
 ...
@@ -204,14 +187,14 @@ public class MessageSender {
 ```
 
 ### Optional/Housekeeping
-For most projects, the following changes will not be necessary, but in this example the Cloud Cache application is a
+For most projects, the following changes will not be necessary, but in this example the GemFire application is a
 separate, self-contained project and these tweaks were needed:
 
-- In `settings.gradle`, update the `rootProject.name` from `pubsub.redis` to `pubsub.cloudcache`.
-- In `manifest.yml`, update the JAR name in `path` from `pubsub.redis` to `pubsub.cloudcache`.
+- In `settings.gradle`, update the `rootProject.name` from `pubsub.redis` to `pubsub.gemfire`.
+- In `manifest.yml`, update the JAR name in `path` from `pubsub.redis` to `pubsub.gemfire`.
 
-## Running the Cloud Cache Application
-Navigate to the Cloud Cache application directory and execute the following command:
+## Running the GemFire Application
+Navigate to the GemFire application directory and execute the following command:
 ```bash
 ./gradlew bootRun
 ```
@@ -220,16 +203,16 @@ Inspect the logs in the terminal. You should see a sequence of log entries like:
 
 ```bash
 --- [main] o.s.d.g.client.ClientRegionFactoryBean   : Creating client Region [Messages]
---- [main] pubsub.cloudcache.Application            : Started Application in 2.204 seconds (JVM running for 2.555)
---- [main] pubsub.cloudcache.Application            : Sending message...
---- [main] pubsub.cloudcache.Application            : Subscriber received <Hello from Cloud Cache!>
+--- [main] pubsub.gemfire.Application            : Started Application in 2.204 seconds (JVM running for 2.555)
+--- [main] pubsub.gemfire.Application            : Sending message...
+--- [main] pubsub.gemfire.Application            : Subscriber received <Hello from GemFire!>
 ```
 
 After sending and receiving the message, the application will exit.
 
-**Note:** When running these examples on the Pivotal Platform, you will need to update the manifest.yml file to bind to your
-Redis or [Cloud Cache](https://docs.pivotal.io/cloud-cache-dev/get-started#test-pas) service instance.
+**Note:** When running these examples on the Tanzu Application Service, you will need to update the manifest.yml file to bind to your
+Redis or Tanzu GemFire service instance.
 
 ## Notes on Testing
-For these applications, the intention was to demonstrate how to migrate from Redis to Cloud Cache.  If your tests are 
+For these applications, the intention was to demonstrate how to migrate from Redis to Tanzu GemFire.  If your tests are 
 not specific to either framework, they should still pass once you've migrated.
