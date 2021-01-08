@@ -12,7 +12,7 @@
 
 ---
 applications:
-  - name: bikeincidents
-    path: ./build/libs/look-aside-cache.jar
+  - name: bike-incidents-app
+    path: ./build/libs/look-aside-cache-0.0.1-SNAPSHOT.jar
     services:
-      - <SERVICE-INSTANCE-NAME>
+      - <your-tanzu-gemfire-service>

@@ -12,7 +12,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
  */
 
-package io.pivotal.cloudcache.lookasidecache;
+package com.vmware.tanzu.gemfire.lookasidecache;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

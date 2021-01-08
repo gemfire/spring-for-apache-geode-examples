@@ -12,10 +12,10 @@ Unless required by applicable law or agreed to in writing, software distributed 
 language governing permissions and limitations under the License.
  */
 
-package io.pivotal.cloudcache.lookasidecache.controllers;
+package com.vmware.tanzu.gemfire.lookasidecache.controllers;
 
-import io.pivotal.cloudcache.lookasidecache.domain.BikeIncident;
-import io.pivotal.cloudcache.lookasidecache.services.BikeIncidentService;
+import com.vmware.tanzu.gemfire.lookasidecache.domain.BikeIncident;
+import com.vmware.tanzu.gemfire.lookasidecache.services.BikeIncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
