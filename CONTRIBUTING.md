@@ -1,3 +1,8 @@
+<!--
+Copyright 2019 - 2021 VMware, Inc.
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Contributing to spring-for-apache-geode-examples
 
 The spring-for-apache-geode-examples project team welcomes contributions from the community. Before you start working with spring-for-apache-geode-examples, please

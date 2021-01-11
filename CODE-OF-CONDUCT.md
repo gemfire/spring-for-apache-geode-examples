@@ -1,3 +1,8 @@
+<!--
+Copyright 2019 - 2021 VMware, Inc.
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
