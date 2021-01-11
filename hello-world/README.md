@@ -1,5 +1,7 @@
-<!--Copyright 2019 - 2021 $today.year. VMware, Inc.
-SPDX-License-Identifier: Apache-2.0-->
+<!--
+Copyright 2019 - 2021 VMware, Inc.
+SPDX-License-Identifier: Apache-2.0
+-->
  
 # Hello, World! Code Example
 
