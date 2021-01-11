@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 
 This example demonstrates the use of Tanzu GemFire for session state caching and can be used with the [Session State Caching Guide](https://tanzugemfire.dev/spring-boot-for-apache-geode/guides/session-state-caching/).
 
-The application uses [Spring Boot for Pivotal Gemfire](https://docs.spring.io/autorepo/docs/spring-boot-data-geode-build/current/reference/html5/) to cache data from the Bikewise.org public REST API. Look-aside caching is enabled with just a few annotations. When serving cached data, the application response time is dramatically improved.
+The application uses [Spring Boot for Apache Geode](https://docs.spring.io/autorepo/docs/spring-boot-data-geode-build/current/reference/html5/).
 
 
 ## When should I use a session state cache?
