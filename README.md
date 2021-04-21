@@ -10,7 +10,7 @@ This repo contains examples of apps that demonstrate the use of VMware Tanzu Gem
 Each example app resides in its own directory within this repository:
 
 - Hello, World! in `hello-world`
-- Example of Cache-aside pattern in `cache-aside`
+- Example of Cache-Aside pattern in `cache-aside`
 - Example of implementing an HTTP session state cache in `session-state`
 - Example of converting a Redis Publish/Subscribe app to Tanzu GemFire in `convert-redis-to-gemfire/pub-sub`
 - Examples of converting Spring Session Redis apps to Tanzu GemFire in `convert-redis-to-gemfire/session-state`
