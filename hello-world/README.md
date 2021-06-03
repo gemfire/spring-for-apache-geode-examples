@@ -9,6 +9,6 @@ The *Hello, World!* example app is a small and simple application that was creat
 
 The *Hello, World!* app is used by the following guides:
 
-- [Set Up Your Local Envinroment](https://tanzugemfire.dev/spring-boot-for-apache-geode/getting-started/set-up-local-env-sbdg/)
-- [Set Up Tanzu GemFire on Tas](https://tanzugemfire.dev/spring-boot-for-apache-geode/getting-started/set-up-tgf4vms-on-tas-sbdg/)
-- [Set Up Tanzu GemFire on Kubernetes](https://tanzugemfire.dev/spring-boot-for-apache-geode/getting-started/set-up-tgf4k8s-on-tas-sbdg/)
+- [Set Up Your Local Envinroment](https://tanzu.vmware.com/developer/data/tanzu-gemfire/guides/get-started-locally-sbdg/)
+- [Set Up Tanzu GemFire on TAS](https://tanzu.vmware.com/developer/data/tanzu-gemfire/guides/get-started-tgf4vms-sbdg/)
+- [Set Up Tanzu GemFire on Kubernetes](https://tanzu.vmware.com/developer/data/tanzu-gemfire/guides/get-started-tgf4k8s-sbdg/)
