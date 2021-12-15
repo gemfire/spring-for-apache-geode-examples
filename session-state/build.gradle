@@ -35,7 +35,7 @@ ext {
 }
 
 dependencies {
-	implementation 'org.springframework.geode:spring-geode-starter'
+    implementation 'org.springframework.geode:spring-geode-starter'
     implementation 'org.springframework.geode:spring-geode-starter-session'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -44,6 +44,13 @@ dependencies {
 }
 
 dependencyManagement {
+    dependencies {
+        dependencySet(group: 'org.apache.logging.log4j', version: '2.16.0') {
+            entry('log4j-api')
+            entry('log4j-core')
+            entry('log4j-to-slf4j')
+        }
+    }
     imports {
         mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
     }
