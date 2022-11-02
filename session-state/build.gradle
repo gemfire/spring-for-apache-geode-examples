@@ -4,13 +4,13 @@ SPDX-License-Identifier: Apache-2.0
 */
 
 plugins {
-    id 'org.springframework.boot' version '2.4.1'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
     id("com.github.node-gradle.node") version "2.2.4"
 }
 
-group = 'com.vmware.tanzu.gemfire.session-state-example'
+group = 'com.vmware.gemfire.session-state-example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -31,7 +31,7 @@ repositories {
 }
 
 ext {
-    set('springGeodeVersion', "1.4.0")
+    set('springGeodeVersion', "1.7.5")
 }
 
 dependencies {
