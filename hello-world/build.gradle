@@ -9,7 +9,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.vmware.tanzu.gemfire.helloworld'
+group = 'com.vmware.gemfire.helloworld'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
