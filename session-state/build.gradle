@@ -28,16 +28,20 @@ bootBuildImage{
 
 repositories {
     mavenCentral()
+    maven {
+        credentials {
+            username "$gemfireRepoUsername"
+            password "$gemfireRepoPassword"
+        }
+        url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+    }
 }
 
-ext {
-    set('springGeodeVersion', "1.7.5")
-}
 
 dependencies {
-    implementation 'org.springframework.geode:spring-geode-starter'
-    implementation 'org.springframework.geode:spring-geode-starter-session'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "com.vmware.gemfire:spring-gemfire-starter-9.15:2.7.0"
+    implementation "com.vmware.gemfire:spring-gemfire-starter-session-9.15:2.7.0"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -51,9 +55,6 @@ dependencyManagement {
             entry('log4j-to-slf4j')
         }
     }
-    imports {
-        mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
-    }
 }
 
 test {
@@ -63,8 +64,8 @@ test {
 
 node {
 
-    version = '14.15.4'
-    npmVersion = '6.14.10'
+    version = '18.12.0'
+    npmVersion = '8.19.2'
     download = true
 
     // Set the work directory for unpacking node
@@ -72,6 +73,7 @@ node {
 
     // Set the work directory for NPM
     npmWorkDir = file("build/node")
+
     // Set the work directory for Yarn
     yarnWorkDir = file("build/yarn")
 }
@@ -93,16 +95,8 @@ task copyFrontEnd(type: Copy) {
     into 'build/resources/main/static/'
 }
 
-task appYarnTest(type: YarnTask) {
-    description = "Builds production version of the frontend"
-    workingDir = file("frontend")
-    args = ["run", "test"]
-}
-
 
 appYarnBuild.dependsOn appYarnInstall
 copyFrontEnd.dependsOn appYarnBuild
 processResources.dependsOn copyFrontEnd
 
-appYarnTest.dependsOn appYarnInstall
-test.dependsOn appYarnTest
