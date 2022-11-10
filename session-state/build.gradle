@@ -40,9 +40,8 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation "com.vmware.gemfire:spring-gemfire-starter-9.15:2.7.0"
-    implementation "com.vmware.gemfire:spring-gemfire-starter-session-9.15:2.7.0"
-
+    implementation "com.vmware.gemfire:spring-boot-2.7-gemfire-9.15:1.0.0"
+    implementation "com.vmware.gemfire:spring-boot-session-2.7-gemfire-9.15:1.0.0"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }
