@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.vmware.tanzu.gemfire.helloworld;
+package com.vmware.gemfire.helloworld;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

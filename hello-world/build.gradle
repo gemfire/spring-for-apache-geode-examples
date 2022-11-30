@@ -4,12 +4,12 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.4.1'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.7.4'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
 }
 
-group = 'com.vmware.tanzu.gemfire.helloworld'
+group = 'com.vmware.gemfire.helloworld'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -19,26 +19,27 @@ bootBuildImage{
 
 repositories {
     mavenCentral()
+    maven {
+        credentials {
+            username "$gemfireRepoUsername"
+            password "$gemfireRepoPassword"
+        }
+        url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+    }
 }
 
-ext {
-    set('springGeodeVersion', "1.4.0")
-}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.geode:spring-geode-starter'
+    implementation "com.vmware.gemfire:spring-boot-2.7-gemfire-9.15:1.0.0"
 }
 
 dependencyManagement {
     dependencies {
-        dependencySet(group: 'org.apache.logging.log4j', version: '2.16.0') {
+        dependencySet(group: 'org.apache.logging.log4j', version: '2.19.0') {
             entry('log4j-api')
             entry('log4j-core')
             entry('log4j-to-slf4j')
         }
-    }
-    imports {
-        mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
     }
 }

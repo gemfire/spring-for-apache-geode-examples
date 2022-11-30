@@ -6,4 +6,4 @@ applications:
   - name: helloworld
     path: ./build/libs/hello-world-0.0.1-SNAPSHOT.jar
     services:
-      - <your-tanzu-gemfire-service>
+      - <your-vmware-gemfire-for-TAS-service-instance-name>
